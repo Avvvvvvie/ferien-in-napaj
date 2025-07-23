@@ -1,0 +1,10 @@
+main {
+    width: 15rem;
+    margin: auto;
+    max-width: 95%;
+}
+
+img {
+    width: 100%;
+    height: auto;
+}
