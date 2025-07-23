@@ -1,7 +1,7 @@
 main {
     width: 15rem;
-    margin: auto;
     max-width: 95%;
+    margin: 15vh auto 15vh;
 }
 
 img {
