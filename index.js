@@ -1,60 +1,44 @@
 
 document.addEventListener("DOMContentLoaded", function () {
     initInteractivePanels();
+    window.addEventListener("scroll", function () {
+        for(let interaction of interactions) {
+            updateInteraction(interaction);
+        }
+    });
 });
 
+let interactions;
+
 function getInteractivePanels() {
-    return document.querySelectorAll("[data-px]");
+    return document.querySelectorAll("[data-x]");
 }
 
 function initInteractivePanels() {
-    getInteractivePanels().forEach(function (panel) {
-        let parent = panel.parentElement;
+    interactions = [];
+    getInteractivePanels().forEach((panel) => {
         let axis = [
-            parseInt(panel.getAttribute("data-axisx")),
-            parseInt(panel.getAttribute("data-axisy"))
+            parseInt(panel.getAttribute("data-x")) || 0,
+            parseInt(panel.getAttribute("data-y")) || 0,
+            parseInt(panel.getAttribute("data-z")) || 0
         ];
-        let center = [
-            parseInt(panel.getAttribute("data-px")),
-            parseInt(panel.getAttribute("data-py"))
-        ];
-        let movement = [0,0];
-        let lastPosition = [0, 0];
 
-        panel.addEventListener("touchmove", function (e) {
-            movement[0] = e.touches[0].clientX - lastPosition[0];
-            movement[1] = e.touches[0].clientY - lastPosition[1];
-            lastPosition = [e.touches[0].clientX, e.touches[0].clientY];
-
-            movePanel(panel, movement, axis, center);
+        interactions.push({
+            parent: panel.parentElement,
+            panel: panel,
+            axis: axis
         });
     });
 }
 
-// move panel around th axis, which is located along the center
-function movePanel(panel, vector, axis, center) {
-    let vectorToCenter = [
-        center[0] - vector[0],
-        center[1] - vector[1]
-    ];
+function updateInteraction(interaction) {
 
-    panel.style.transform = "rotate3d(" + axis[0] + ", " + axis[1] + ", 0, " + scaleVectorToRotation(panel.height, vectorToCenter, axis) + "deg)";
-}
+    let max = window.innerHeight / 2;
+    let now = max - ((interaction.parent.getBoundingClientRect().bottom + 10) - window.innerHeight / 2)
 
-function vectorLength(vector) {
-    return Math.sqrt(vector[0] * vector[0] + vector[1] * vector[1]);
-}
-
-function project(vector, axis) {
-    let axisLength = vectorLength(axis);
-    if (axisLength === 0) return 0;
-    let dotProduct = vector[0] * axis[0] + vector[1] * axis[1];
-    return dotProduct / axisLength;
-}
-
-function scaleVectorToRotation(max, vector, axis) {
-    let projectedDistance = project(vector, axis);
-    let len = vectorLength(projectedDistance);
-    if (len === 0) return 0;
-    return projectedDistance * 180 / max;
+    if(now > 0 && now < max) {
+        let angle = 180 * now / max;
+        console.log(angle);
+        interaction.panel.style.transform = `rotate3D(${interaction.axis[0]}, ${interaction.axis[1]}, ${interaction.axis[2]}, ${angle}deg)`;
+    }
 }
