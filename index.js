@@ -22,12 +22,16 @@ function initInteractivePanels() {
             parseInt(panel.getAttribute("data-y")) || 0,
             parseInt(panel.getAttribute("data-z")) || 0
         ];
-
+        let invert = (panel.getAttribute("data-invert") === "true");
         interactions.push({
             parent: panel.parentElement,
             panel: panel,
-            axis: axis
+            axis: axis,
+            invert: invert
         });
+        if(invert) {
+            panel.style.transform = `rotate3D(${axis[0]}, ${axis[1]}, ${axis[2]}, 180deg)`;
+        }
     });
 }
 
@@ -38,6 +42,9 @@ function updateInteraction(interaction) {
 
     if(now > 0 && now < max) {
         let angle = 180 * now / max;
+        if(interaction.invert) {
+            angle = 180 - angle;
+        }
         console.log(angle);
         interaction.panel.style.transform = `rotate3D(${interaction.axis[0]}, ${interaction.axis[1]}, ${interaction.axis[2]}, ${angle}deg)`;
     }
