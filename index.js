@@ -1,6 +1,6 @@
 
 document.addEventListener("DOMContentLoaded", function () {
-
+    initInteractivePanels();
 });
 
 function getInteractivePanels() {
