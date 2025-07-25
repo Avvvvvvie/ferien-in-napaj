@@ -1,3 +1,7 @@
+body {
+    overflow: hidden; /* we will never know why*/
+}
+
 main {
     width: 28rem;
     max-width: 100%;

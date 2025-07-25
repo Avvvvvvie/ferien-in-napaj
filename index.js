@@ -36,7 +36,6 @@ function initInteractivePanels() {
 }
 
 function updateInteraction(interaction) {
-
     let max = window.innerHeight / 2;
     let offset = -50;
     let now = max - ((interaction.parent.getBoundingClientRect().bottom + offset) - window.innerHeight / 2)
