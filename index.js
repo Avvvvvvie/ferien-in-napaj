@@ -38,10 +38,11 @@ function initInteractivePanels() {
 function updateInteraction(interaction) {
 
     let max = window.innerHeight / 2;
-    let now = max - ((interaction.parent.getBoundingClientRect().bottom + 10) - window.innerHeight / 2)
+    let offset = -50;
+    let now = max - ((interaction.parent.getBoundingClientRect().bottom + offset) - window.innerHeight / 2)
 
-    if(now > 0 && now < max) {
-        let angle = 180 * now / max;
+    if(now > offset && now < max + offset) {
+        let angle = 180 * (now - offset) / max;
         if(interaction.invert) {
             angle = 180 - angle;
         }
