@@ -1,5 +1,5 @@
 body, html {
-    overflow: hidden; /* we will never know why*/
+    overflow-x: hidden; /* we will never know why*/
 }
 
 main {
