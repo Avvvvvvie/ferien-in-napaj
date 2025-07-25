@@ -45,7 +45,6 @@ function updateInteraction(interaction) {
         if(interaction.invert) {
             angle = 180 - angle;
         }
-        console.log(angle);
         interaction.panel.style.transform = `rotate3D(${interaction.axis[0]}, ${interaction.axis[1]}, ${interaction.axis[2]}, ${angle}deg)`;
     }
 }
